@@ -19,8 +19,6 @@ let ContainerArray = [];
 let totalNoQuestions = questions.length;
 let previousScores = [];
 
-
-
 // Timer Starting Text
 timeElement.textContent = "Ready!";
 
@@ -103,11 +101,12 @@ questionChoices.addEventListener("click", function (event) {
     var userAnswer = element.textContent;
     var userOption = userAnswer.substring(3, userAnswer.length);
 
-
+    // Sound and Count on correct answer selected 
     if (userOption === correctAnswer) {
         correctSound.play();
         correct++;
     }
+    // Sound and time deduction on Incorrect answer selected
     else {
         timerCount -= 10;
         incorrectSound.play();
