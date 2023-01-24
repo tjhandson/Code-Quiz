@@ -17,6 +17,7 @@ let questionIndex = 0;
 let buttonsArray = [];
 let ContainerArray = [];
 let totalNoQuestions = questions.length;
+let previousScores = [];
 
 
 
@@ -125,9 +126,36 @@ function startGame() {
     quesitonPage()
 }
 
+// Function to store Highscores to be recalled on highscore.html
+function storeScores() {
+    // Object container for Current Highscore
+    let User = {
+        initials: initials.value.trim(),
+        score: correct,
+    }
 
+    // reset initial value
+    initials.value = "";
+
+
+    let tempRecall = [];
+    // Parse localstorage back to aray of objects
+    tempRecall = JSON.parse(localStorage.getItem('previousScores')) || [];
+    // Push the new data into the array
+    tempRecall.push(User);
+    //TempRecall array converted to string and stored in localStorage
+    localStorage.setItem('previousScores', JSON.stringify(tempRecall));
+
+    hideElement(endScreen);
+    displayElement(startScreen);
+    startButton.disabled = false;
+
+}
 
 // Event Lister to start Game
 startButton.addEventListener("click", startGame);
+
+// Event Listener to Store Score
+submit.addEventListener("click", storeScores);
 
 
