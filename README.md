@@ -47,8 +47,6 @@ To access the console in Chrome Browser use this keyboard shortcut: "Cmd + Optio
 However, alternatively right-click on the webpage and click "Inspect" to open the developer console and slecet the "Console" tab within this tab
 
 
-
-
 ## Run Locally
 
 
