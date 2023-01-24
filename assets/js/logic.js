@@ -102,6 +102,7 @@ questionChoices.addEventListener("click", function (event) {
     var userAnswer = element.textContent;
     var userOption = userAnswer.substring(3, userAnswer.length);
 
+
     if (userOption === correctAnswer) {
         correctSound.play();
         correct++;
@@ -114,7 +115,6 @@ questionChoices.addEventListener("click", function (event) {
     questionIndex++;
     quesitonPage();
 });
-
 
 
 // Start Game Sequence
