@@ -13,6 +13,11 @@ let timer;
 let timerCount;
 let score;
 let correct = 0;
+let questionIndex = 0;
+let buttonsArray = [];
+let ContainerArray = [];
+let totalNoQuestions = questions.length;
+
 
 
 // Timer Starting Text
@@ -37,7 +42,7 @@ function displayElement(element) {
 function startTimer() {
     // Sets timer
     timer = setInterval(function () {
-        if (timerCount <= 0) {
+        if (timerCount <= 0 || (questionIndex > totalNoQuestions - 1)) {
             // Clears interval and Ends Game if Time Runs out
             clearInterval(timer);
             displayElement(endScreen);
@@ -54,13 +59,70 @@ function startTimer() {
     }, 1000);
 }
 
+// functionn on displaying Question Page
+function quesitonPage() {
+    // Hide all elements for beginning game play
+    hideElement(questionScreen);
+    hideElement(endScreen);
+    hideElement(startScreen);
+    // Creating button Elements for each question
+    for (let i = 0; i < 4; i++) {
+        let parent = document.createElement("div");
+        let child = document.createElement("button");
+        child.setAttribute("data-index", i);
+        child.setAttribute("class", "btn btn-primary rounded-pill mb-2");
+        buttonsArray.push(child);
+        ContainerArray.push(parent);
+    }
+    // end of game if questions completed
+    if (questionIndex > totalNoQuestions - 1) {
+        finalScore.textContent = correct;
+        displayElement(endScreen);
+        return;
+    }
+    else {
+        // Else display each choice in their own button
+        displayElement(questionScreen);
+        correctAnswer = questions[questionIndex].answer;
+        questionTitle.innerHTML = questions[questionIndex].title;
+        for (let a = 0; a < 4; a++) {
+            let index = buttonsArray[a].getAttribute("data-index");
+            buttonsArray[a].textContent = (+index + 1) + ": " + questions[questionIndex].choices[index];
+            ContainerArray[a].appendChild(buttonsArray[a]);
+            questionChoices.appendChild(ContainerArray[a]);
+        }
+    }
+    // display Question screen to begin questions
+    displayElement(questionScreen);
+}
+
+// Button Functionality and Win counts and penalties
+questionChoices.addEventListener("click", function (event) {
+    var element = event.target;
+    var userAnswer = element.textContent;
+    var userOption = userAnswer.substring(3, userAnswer.length);
+
+    if (userOption === correctAnswer) {
+        correctSound.play();
+        correct++;
+    }
+    else {
+        timerCount -= 10;
+        incorrectSound.play();
+        return;
+    }
+    questionIndex++;
+    quesitonPage();
+});
+
+
+
 // Start Game Sequence
 function startGame() {
     startButton.disabled = true;
     timerCount = 60;
     startTimer();
-
-
+    quesitonPage()
 }
 
 
